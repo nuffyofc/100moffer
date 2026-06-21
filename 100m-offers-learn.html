@@ -433,18 +433,18 @@ body{
   margin-top:22px;
   text-decoration:none;
   font-size:13px;font-weight:700;letter-spacing:0.2px;
-  color:#fff;
-  background:linear-gradient(135deg, var(--gold), var(--gold-dim));
+  color:var(--gold);
+  background:#ffffff;
   border:1px solid var(--gold-glow-strong);
   padding:10px 22px;border-radius:20px;
-  box-shadow:var(--shadow-gold);
+  box-shadow:0 8px 24px -8px rgba(106,5,246,0.35);
   cursor:pointer;
   transition:transform .15s ease, filter .15s ease;
 }
-.watermark:hover{filter:brightness(1.08);transform:translateY(-1px);}
+.watermark:hover{filter:brightness(0.96);transform:translateY(-1px);}
 .watermark:active{transform:scale(0.97);}
 .watermark-sub{
-  font-size:10.5px;font-weight:600;color:#fff;opacity:0.85;letter-spacing:0;
+  font-size:10.5px;font-weight:600;color:var(--gold);opacity:0.75;letter-spacing:0;
 }
 
 /* STAGE (cards area only, excludes header/dots) */
@@ -902,7 +902,6 @@ function render() {
       html += `<div class="card${inView}" data-index="${idx}">
         <div style="display:flex;flex-direction:column;height:100%">
           <div style="flex:1;display:flex;flex-direction:column;justify-content:center">
-            <div class="welcome-icon">&#127942;</div>
             <div class="welcome-title">You Did It!</div>
             <div class="welcome-sub">Here's how you scored</div>
             <div class="final-grade ${gradeCls}">${grade}</div>
