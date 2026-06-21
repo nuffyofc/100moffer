@@ -345,6 +345,69 @@ body{
 .module-review-item .mr-score.ok{color:var(--gold);background:var(--gold-glow)}
 .module-review-item .mr-score.bad{color:var(--red);background:var(--red-glow)}
 
+/* SUMMARY (SHAREABLE) CARD */
+.summary-card{
+  position:relative;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(245,193,77,0.22), transparent 55%),
+    radial-gradient(circle at 100% 100%, rgba(52,211,153,0.16), transparent 50%),
+    linear-gradient(160deg, var(--surface2), var(--bg));
+}
+.summary-inner{
+  display:flex;flex-direction:column;align-items:center;
+  width:100%;max-width:340px;
+}
+.summary-badge{
+  font-size:10.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+  color:var(--gold);
+  background:var(--gold-glow);border:1px solid var(--gold-glow-strong);
+  padding:6px 14px;border-radius:20px;margin-bottom:18px;
+}
+.summary-icon{
+  font-size:48px;margin-bottom:8px;
+  filter:drop-shadow(0 6px 18px rgba(245,193,77,0.45));
+}
+.summary-title{
+  font-size:23px;font-weight:800;letter-spacing:-0.4px;
+  margin-bottom:6px;
+  background:linear-gradient(90deg, var(--text), var(--gold));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.summary-score{
+  font-size:13px;font-weight:700;color:var(--green);
+  background:var(--green-glow);border:1px solid var(--green-dim);
+  padding:5px 14px;border-radius:20px;margin-bottom:20px;
+}
+.summary-points{
+  list-style:none;width:100%;text-align:left;margin-bottom:22px;
+}
+.summary-points li{
+  display:flex;align-items:flex-start;gap:10px;
+  font-size:13.5px;color:var(--text2);line-height:1.5;
+  padding:10px 14px;margin-bottom:8px;
+  background:var(--surface3);border:1px solid var(--border);border-radius:10px;
+}
+.summary-points .sp-tick{
+  flex-shrink:0;color:var(--gold);font-weight:800;font-size:13px;margin-top:1px;
+}
+.summary-share{
+  font-size:12px;color:var(--text3);font-weight:600;
+}
+.watermark{
+  position:absolute;
+  bottom:14px;right:16px;
+  font-size:11px;font-weight:700;letter-spacing:0.2px;
+  color:var(--text3);
+  background:rgba(18,17,32,0.55);
+  border:1px solid var(--border);
+  padding:5px 10px;border-radius:20px;
+  backdrop-filter:blur(4px);
+  pointer-events:none;
+}
+
 /* NAV ARROWS */
 .nav-arrows{
   position:fixed;
@@ -405,6 +468,7 @@ body{
 const modules = [
   {
     id:1, title:"Origin &amp; Mindset", icon:"&#9733;",
+    summary:['An offer is the start of every transaction.','Hormozi went from broke to $120M in 48 months.','Ask yourself: how good is your offer — really?'],
     teaching:`<div class="lesson-icon">&#9733;</div>
     <div class="lesson-label">Module 1 of 12</div>
     <div class="lesson-title">How a Grand Slam Offer Changed Everything</div>
@@ -423,6 +487,7 @@ const modules = [
   },
   {
     id:2, title:"Grand Slam Offer", icon:"&#127922;",
+    summary:['A Grand Slam Offer escapes price competition entirely.','Combine premium price + value + guarantee + uniqueness.','One great offer can be enough to retire on.'],
     teaching:`<div class="lesson-icon">&#127922;</div>
     <div class="lesson-label">Module 2 of 12</div>
     <div class="lesson-title">What Is a Grand Slam Offer?</div>
@@ -442,6 +507,7 @@ const modules = [
   },
   {
     id:3, title:"The Commodity Problem", icon:"&#9888;",
+    summary:['Commodities compete on price — and price wars kill margins.','Differentiation lets you escape the race to the bottom.','Value-driven buyers care about outcomes, not price tags.'],
     teaching:`<div class="lesson-icon">&#9888;</div>
     <div class="lesson-label">Module 3 of 12</div>
     <div class="lesson-title">The Race to the Bottom</div>
@@ -461,6 +527,7 @@ const modules = [
   },
   {
     id:4, title:"Starving Crowd", icon:"&#127760;",
+    summary:['Find a market with pain, money, reach, and growth.','Market > Offer > Persuasion skills, in that order.','The pain you describe accurately is the pitch.'],
     teaching:`<div class="lesson-icon">&#127760;</div>
     <div class="lesson-label">Module 4 of 12</div>
     <div class="lesson-title">Finding Your Starving Crowd</div>
@@ -484,6 +551,7 @@ const modules = [
   },
   {
     id:5, title:"Value-Based Pricing", icon:"&#36;",
+    summary:['Price is a signal — cheap prices signal low confidence.','Higher prices fund better delivery and better results.','Charge based on outcome value, not delivery cost.'],
     teaching:`<div class="lesson-icon">&#36;</div>
     <div class="lesson-label">Module 5 of 12</div>
     <div class="lesson-title">Charge What It's Worth</div>
@@ -504,6 +572,7 @@ const modules = [
   },
   {
     id:6, title:"Value Equation", icon:"&#8776;",
+    summary:['V = (Dream Outcome × Likelihood) / (Time Delay × Effort).','Most leverage hides in shrinking the denominator.','Make results faster and easier, not just bigger promises.'],
     teaching:`<div class="lesson-icon">&#8776;</div>
     <div class="lesson-label">Module 6 of 12</div>
     <div class="lesson-title">The Value Equation</div>
@@ -526,6 +595,7 @@ const modules = [
   },
   {
     id:7, title:"Dream Outcome & Likelihood", icon:"&#127919;",
+    summary:['Specific, vivid outcomes sell — vague ones don\'t.','Proof builds belief; belief builds Perceived Likelihood.','Guarantees remove risk and increase confidence to buy.'],
     teaching:`<div class="lesson-icon">&#127919;</div>
     <div class="lesson-label">Module 7 of 12</div>
     <div class="lesson-title">Dream Outcome &amp; Perceived Likelihood</div>
@@ -546,6 +616,7 @@ const modules = [
   },
   {
     id:8, title:"Time Delay & Effort", icon:"&#9200;",
+    summary:['Fast beats free — speed is worth paying for.','Less effort for the customer means more perceived value.','Deliver a quick win before they finish their coffee.'],
     teaching:`<div class="lesson-icon">&#9200;</div>
     <div class="lesson-label">Module 8 of 12</div>
     <div class="lesson-title">Time Delay &amp; Effort &amp; Sacrifice</div>
@@ -566,6 +637,7 @@ const modules = [
   },
   {
     id:9, title:"Psychological Value", icon:"&#129504;",
+    summary:['Psychological fixes change how people feel, not just outcomes.','Perception is reality in every buying decision.','Every market ultimately sells some form of status.'],
     teaching:`<div class="lesson-icon">&#129504;</div>
     <div class="lesson-label">Module 9 of 12</div>
     <div class="lesson-title">Psychological vs Logical Solutions</div>
@@ -585,6 +657,7 @@ const modules = [
   },
   {
     id:10, title:"Problems, Trim & Stack", icon:"&#128221;",
+    summary:['List every obstacle, then turn each into a named solution.','Trim costly low-value items, stack cheap high-value ones.','The 10x test stretches your offer\'s creative ceiling.'],
     teaching:`<div class="lesson-icon">&#128221;</div>
     <div class="lesson-label">Module 10 of 12</div>
     <div class="lesson-title">Problems, Solutions, Trim &amp; Stack</div>
@@ -606,6 +679,7 @@ const modules = [
   },
   {
     id:11, title:"Enhancement & Guarantees", icon:"&#128737;",
+    summary:['Bonuses should total at least 10x your price.','Strong guarantees move risk from buyer to seller.','Rising demand + constrained supply = room to raise price.'],
     teaching:`<div class="lesson-icon">&#128737;</div>
     <div class="lesson-label">Module 11 of 12</div>
     <div class="lesson-title">Bonuses, Guarantees, Scarcity &amp; Urgency</div>
@@ -626,6 +700,7 @@ const modules = [
   },
   {
     id:12, title:"Naming & Execution", icon:"&#127912;",
+    summary:['Name your offer with the M-A-G-I-C formula.','Change the wrapper before you ever change the offer.','Create flow. Monetize flow. Then add friction.'],
     teaching:`<div class="lesson-icon">&#127912;</div>
     <div class="lesson-label">Module 12 of 12</div>
     <div class="lesson-title">Naming, Delivery &amp; Putting It All Together</div>
@@ -670,6 +745,7 @@ function buildCardRegistry() {
     for (let qi = 0; qi < mod.questions.length; qi++) {
       cards.push({ type:'question', moduleIndex:mi, questionIndex:qi });
     }
+    cards.push({ type:'summary', moduleIndex:mi });
   });
   cards.push({ type:'final' });
   return cards;
@@ -697,10 +773,9 @@ function render() {
               <li>Instant feedback on every answer</li>
               <li>Apply these frameworks to your business</li>
             </ul>
-            <button class="btn-next" onclick="goToCard(${idx + 1})">&#8594; Start Learning</button>
           </div>
           <div style="text-align:center;padding-top:8px;font-size:11px;color:var(--text3)">
-            Swipe or tap arrows &bull; Mobile-friendly
+            Tap the arrows to begin &bull; Mobile-friendly
           </div>
         </div>
       </div>`;
@@ -709,9 +784,6 @@ function render() {
       html += `<div class="card${inView}" data-index="${idx}">
         <div style="display:flex;flex-direction:column;height:100%">
           ${mod.teaching}
-          <div class="lesson-btn">
-            <button class="btn-next" onclick="goToCard(${idx + 1})">Start Quiz &#8594;</button>
-          </div>
         </div>
       </div>`;
     } else if (card.type === 'quiz-intro') {
@@ -723,7 +795,6 @@ function render() {
           <p style="color:var(--text2);font-size:14px;margin-bottom:4px">Module ${card.moduleIndex + 1}: ${mod.title}</p>
           <p style="color:var(--text3);font-size:13px">${mod.questions.length} questions</p>
           <p style="color:var(--text3);font-size:12px;margin-top:6px">Pick the right answer. Instant feedback after each question.</p>
-          <button class="btn-next" style="margin-top:20px;max-width:280px" onclick="goToCard(${idx + 1})">Let's Go!</button>
         </div>
       </div>`;
     } else if (card.type === 'question') {
@@ -750,10 +821,25 @@ function render() {
           <div class="feedback ${answered ? (correct ? 'correct' : 'incorrect') : ''} ${answered ? 'show' : ''}" id="feedback-${idx}">
             ${answered ? `<span class="fb-icon">${correct ? '&#9989;' : '&#10060;'}</span><span class="fb-text">${correct ? '<strong>Correct!</strong> ' : '<strong>Incorrect.</strong> The right answer: ' + q.c[q.r] + '. '}${q.e}</span>` : ''}
           </div>
-          ${answered ? `<button class="btn-next" style="margin-top:10px;margin-bottom:4px" onclick="goToCard(${idx + 1})">${idx + 1 >= state.totalCards - 1 ? 'See Results' : 'Next Question'} &#8594;</button>` : ''}
           <div style="flex:1"></div>
           <div style="text-align:center;font-size:11px;color:var(--text3);padding-top:6px">Question ${getModuleQuestionNumber(card.moduleIndex, card.questionIndex)}/${modules[card.moduleIndex].questions.length}</div>
         </div>
+      </div>`;
+    } else if (card.type === 'summary') {
+      const mod = modules[card.moduleIndex];
+      const ms = state.moduleScores[card.moduleIndex];
+      html += `<div class="card${inView} summary-card" data-index="${idx}">
+        <div class="summary-inner">
+          <div class="summary-badge">Module ${card.moduleIndex + 1} of 12 &bull; Complete</div>
+          <div class="summary-icon">${mod.icon}</div>
+          <div class="summary-title">${mod.title}</div>
+          <div class="summary-score">${ms.correct}/${ms.total} correct</div>
+          <ul class="summary-points">
+            ${mod.summary.map(pt => `<li><span class="sp-tick">&#10003;</span><span>${pt}</span></li>`).join('')}
+          </ul>
+          <div class="summary-share">&#128247; Screenshot this &amp; share your progress</div>
+        </div>
+        <div class="watermark">linktr.ee/treebranches</div>
       </div>`;
     } else if (card.type === 'final') {
       const pct = state.totalCards > 0 ? Math.round((state.score / 60) * 100) : 0;
@@ -783,7 +869,7 @@ function render() {
               }).join('')}
             </div>
             <p style="text-align:center;color:var(--text3);font-size:12px;margin:10px 0">Now apply these principles to YOUR offer.</p>
-            <button class="btn-next" onclick="goToCard(0)">&#8635; Restart</button>
+            <p style="text-align:center;color:var(--text3);font-size:11px">Tap the right arrow to restart</p>
           </div>
         </div>
       </div>`;
@@ -829,6 +915,7 @@ function goToCard(idx) {
 function nextCard() {
   const wrap = document.getElementById('cardsWrap');
   const current = Math.round(wrap.scrollLeft / wrap.clientWidth);
+  if (current >= state.totalCards - 1) { goToCard(0); return; }
   goToCard(current + 1);
 }
 
@@ -860,6 +947,9 @@ function updateInView() {
   cards.forEach((c, i) => {
     c.classList.toggle('in-view', i === current);
   });
+  const reg = buildCardRegistry();
+  const isSummary = reg[current] && reg[current].type === 'summary';
+  document.getElementById('navArrows').style.display = isSummary ? 'none' : '';
 }
 
 // ==================== DOTS ====================
@@ -892,6 +982,35 @@ function updateProgress() {
   document.getElementById('progressFill').style.width = pct + '%';
   document.getElementById('scoreDisplay').textContent = state.score;
 }
+
+// ==================== SWIPE (summary cards only) ====================
+let touchStartX = 0;
+let touchStartY = 0;
+let isSwiping = false;
+function currentCardType() {
+  const reg = buildCardRegistry();
+  return reg[state.currentCard] ? reg[state.currentCard].type : null;
+}
+document.addEventListener('touchstart', (e) => {
+  if (currentCardType() !== 'summary') return;
+  touchStartX = e.touches[0].clientX;
+  touchStartY = e.touches[0].clientY;
+  isSwiping = false;
+}, { passive: true });
+document.addEventListener('touchmove', (e) => {
+  if (currentCardType() !== 'summary') return;
+  const dx = Math.abs(e.touches[0].clientX - touchStartX);
+  const dy = Math.abs(e.touches[0].clientY - touchStartY);
+  if (dx > 10 || dy > 10) isSwiping = true;
+}, { passive: true });
+document.addEventListener('touchend', (e) => {
+  if (currentCardType() !== 'summary' || !isSwiping) return;
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  if (Math.abs(dx) > 50) {
+    if (dx < 0) nextCard();
+    else prevCard();
+  }
+}, { passive: true });
 
 // ==================== KEYBOARD ====================
 document.addEventListener('keydown', (e) => {
