@@ -10,11 +10,11 @@
   --surface: #121120;
   --surface2: #19182c;
   --surface3: #232238;
-  --gold: #f5c14d;
-  --gold2: #f0a431;
-  --gold-dim: #c98a1f;
-  --gold-glow: rgba(245,193,77,0.16);
-  --gold-glow-strong: rgba(245,193,77,0.30);
+  --gold: rgb(106,5,246);
+  --gold2: rgb(146,68,255);
+  --gold-dim: rgb(80,3,190);
+  --gold-glow: rgba(106,5,246,0.16);
+  --gold-glow-strong: rgba(106,5,246,0.32);
   --green: #34d399;
   --green-dim: #16a34a;
   --green-glow: rgba(52,211,153,0.14);
@@ -25,27 +25,59 @@
   --text3: #6e6c8d;
   --border: #28253f;
   --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-  --shadow-gold: 0 8px 24px -8px rgba(245,193,77,0.45);
+  --shadow-gold: 0 8px 24px -8px rgba(106,5,246,0.45);
+  --chrome-1: rgba(18,17,32,0.97);
+  --chrome-2: rgba(18,17,32,0.85);
+  --chrome-3: rgba(18,17,32,0.75);
+  --chrome-4: rgba(18,17,32,0.55);
+  --btn-text: #ffffff;
+}
+[data-theme="light"]{
+  --bg: #ffffff;
+  --surface: #f7f4ff;
+  --surface2: #efe9ff;
+  --surface3: #e4dbff;
+  --gold: rgb(106,5,246);
+  --gold2: rgb(140,50,255);
+  --gold-dim: rgb(80,3,190);
+  --gold-glow: rgba(106,5,246,0.10);
+  --gold-glow-strong: rgba(106,5,246,0.22);
+  --green: #15803d;
+  --green-dim: #16a34a;
+  --green-glow: rgba(21,128,61,0.10);
+  --red: #dc2626;
+  --red-glow: rgba(220,38,38,0.10);
+  --text: #1c1330;
+  --text2: #5e5578;
+  --text3: #8d84a8;
+  --border: #e1d9ff;
+  --shadow-gold: 0 8px 24px -8px rgba(106,5,246,0.35);
+  --chrome-1: rgba(255,255,255,0.97);
+  --chrome-2: rgba(255,255,255,0.85);
+  --chrome-3: rgba(255,255,255,0.75);
+  --chrome-4: rgba(255,255,255,0.65);
+  --btn-text: #ffffff;
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;overflow:hidden;touch-action:pan-y}
 body{
   font-family:var(--font);
   background:
-    radial-gradient(circle at 15% -10%, rgba(245,193,77,0.10), transparent 45%),
-    radial-gradient(circle at 100% 110%, rgba(52,211,153,0.06), transparent 45%),
+    radial-gradient(circle at 15% -10%, var(--gold-glow), transparent 45%),
+    radial-gradient(circle at 100% 110%, var(--green-glow), transparent 45%),
     var(--bg);
   color:var(--text);
   display:flex;
   flex-direction:column;
   -webkit-font-smoothing:antialiased;
+  transition:background-color .25s ease, color .25s ease;
 }
 
 /* HEADER */
 .header{
   flex-shrink:0;
   padding:12px 16px;
-  background:linear-gradient(180deg, rgba(18,17,32,0.97), rgba(18,17,32,0.85));
+  background:linear-gradient(180deg, var(--chrome-1), var(--chrome-2));
   backdrop-filter:blur(10px);
   border-bottom:1px solid var(--border);
   display:flex;
@@ -70,6 +102,14 @@ body{
   padding:4px 10px;border-radius:20px;
 }
 .header .score span{color:var(--gold);font-weight:800;}
+.theme-toggle{
+  width:30px;height:30px;border-radius:50%;
+  border:1px solid var(--border);background:var(--surface2);
+  color:var(--text2);font-size:14px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:border-color .15s ease,color .15s ease;
+}
+.theme-toggle:hover{border-color:var(--gold-dim);color:var(--gold);}
 .progress-bar{
   flex-shrink:0;
   height:4px;
@@ -124,7 +164,7 @@ body{
   justify-content:center;
   gap:5px;
   padding:10px 14px 12px;
-  background:linear-gradient(0deg, rgba(18,17,32,0.97), rgba(18,17,32,0.85));
+  background:linear-gradient(0deg, var(--chrome-1), var(--chrome-2));
   backdrop-filter:blur(10px);
   border-top:1px solid var(--border);
   overflow-x:auto;
@@ -167,7 +207,7 @@ body{
 .lesson-body strong{color:var(--text);font-weight:700;}
 .lesson-quote{
   position:relative;
-  background:linear-gradient(135deg, var(--gold-glow), rgba(245,193,77,0.04));
+  background:linear-gradient(135deg, var(--gold-glow), rgba(106,5,246,0.04));
   border-left:3px solid var(--gold);
   padding:12px 16px 12px 36px;border-radius:4px 12px 12px 4px;
   font-size:12.5px;font-style:italic;color:var(--text);
@@ -186,14 +226,14 @@ body{
   display:block;width:100%;
   padding:15px;border:none;border-radius:12px;
   background:linear-gradient(135deg, var(--gold), var(--gold2));
-  color:#1a1306;font-size:15px;font-weight:800;cursor:pointer;
+  color:var(--btn-text);font-size:15px;font-weight:800;cursor:pointer;
   font-family:var(--font);
   box-shadow:var(--shadow-gold);
   transition:transform .15s ease, box-shadow .15s ease, filter .15s ease;
   letter-spacing:-0.1px;
 }
 .btn-next:hover{filter:brightness(1.06);transform:translateY(-1px);}
-.btn-next:active{transform:scale(0.97) translateY(0);box-shadow:0 4px 12px -4px rgba(245,193,77,0.4);}
+.btn-next:active{transform:scale(0.97) translateY(0);box-shadow:0 4px 12px -4px rgba(106,5,246,0.4);}
 
 /* QUIZ CARD */
 .quiz-label{
@@ -276,7 +316,7 @@ body{
   color:var(--gold);
   display:flex;align-items:center;justify-content:center;
   font-size:34px;margin:12px auto 16px;
-  box-shadow:0 12px 30px -10px rgba(245,193,77,0.5);
+  box-shadow:0 12px 30px -10px rgba(106,5,246,0.5);
   animation:floatIcon 3.2s ease-in-out infinite;
 }
 @keyframes floatIcon{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
@@ -352,7 +392,7 @@ body{
   align-items:center;
   text-align:center;
   background:
-    radial-gradient(circle at 20% 0%, rgba(245,193,77,0.22), transparent 55%),
+    radial-gradient(circle at 20% 0%, rgba(106,5,246,0.22), transparent 55%),
     radial-gradient(circle at 100% 100%, rgba(52,211,153,0.16), transparent 50%),
     linear-gradient(160deg, var(--surface2), var(--bg));
 }
@@ -368,7 +408,7 @@ body{
 }
 .summary-icon{
   font-size:48px;margin-bottom:8px;
-  filter:drop-shadow(0 6px 18px rgba(245,193,77,0.45));
+  filter:drop-shadow(0 6px 18px rgba(106,5,246,0.45));
 }
 .summary-title{
   font-size:23px;font-weight:800;letter-spacing:-0.4px;
@@ -399,13 +439,17 @@ body{
 .watermark{
   position:absolute;
   bottom:14px;right:16px;
+  display:flex;flex-direction:column;align-items:flex-end;gap:1px;
   font-size:11px;font-weight:700;letter-spacing:0.2px;
   color:var(--text3);
-  background:rgba(18,17,32,0.55);
+  background:var(--chrome-4);
   border:1px solid var(--border);
-  padding:5px 10px;border-radius:20px;
+  padding:6px 12px;border-radius:14px;
   backdrop-filter:blur(4px);
   pointer-events:none;
+}
+.watermark-sub{
+  font-size:9px;font-weight:600;color:var(--text3);opacity:0.85;letter-spacing:0;
 }
 
 /* NAV ARROWS */
@@ -428,7 +472,7 @@ body{
 .nav-arrow.next{right:12px;}
 .nav-arrow span{
   width:50px;height:50px;border-radius:12px;
-  background:rgba(18,17,32,0.85);
+  background:var(--chrome-3);
   border:1px solid var(--border);
   display:flex;align-items:center;justify-content:center;
   font-size:20px;color:var(--text2);
@@ -448,7 +492,10 @@ body{
 
 <div class="header">
   <div class="title">$100M Offers — Learn &amp; Apply</div>
-  <div class="score">Score: <span id="scoreDisplay">0</span>/60</div>
+  <div style="display:flex;align-items:center;gap:8px">
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle light/dark theme">&#9728;</button>
+    <div class="score">Score: <span id="scoreDisplay">0</span>/60</div>
+  </div>
 </div>
 <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
 
@@ -839,7 +886,7 @@ function render() {
           </ul>
           <div class="summary-share">&#128247; Screenshot this &amp; share your progress</div>
         </div>
-        <div class="watermark">linktr.ee/treebranches</div>
+        <div class="watermark">linktr.ee/treebranches<span class="watermark-sub">Based on the book by Alex Hormozi</span></div>
       </div>`;
     } else if (card.type === 'final') {
       const pct = state.totalCards > 0 ? Math.round((state.score / 60) * 100) : 0;
@@ -1017,6 +1064,18 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'ArrowRight') nextCard();
   if (e.key === 'ArrowLeft') prevCard();
 });
+
+// ==================== THEME ====================
+function applyTheme(theme) {
+  document.body.setAttribute('data-theme', theme);
+  document.getElementById('themeToggle').innerHTML = theme === 'light' ? '&#127769;' : '&#9728;';
+  localStorage.setItem('theme', theme);
+}
+function toggleTheme() {
+  const current = document.body.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+  applyTheme(current === 'light' ? 'dark' : 'light');
+}
+applyTheme(localStorage.getItem('theme') === 'light' ? 'light' : 'dark');
 
 // ==================== INIT ====================
 render();
