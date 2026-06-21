@@ -157,29 +157,6 @@ body{
   transform:scale(1);
 }
 
-/* DOTS */
-.dots{
-  flex-shrink:0;
-  display:flex;
-  justify-content:center;
-  gap:5px;
-  padding:10px 14px 12px;
-  background:linear-gradient(0deg, var(--chrome-1), var(--chrome-2));
-  backdrop-filter:blur(10px);
-  border-top:1px solid var(--border);
-  overflow-x:auto;
-  min-height:30px;
-}
-.dot{
-  width:6px;height:6px;border-radius:50%;
-  background:var(--border);
-  flex-shrink:0;
-  transition:all .25s cubic-bezier(.34,1.56,.64,1);
-}
-.dot.passed{background:var(--green)}
-.dot.quiz-passed{background:var(--gold);box-shadow:0 0 6px 0 var(--gold-glow-strong)}
-.dot.wrong{background:var(--red)}
-.dot.current{background:var(--gold);width:18px;height:7px;border-radius:4px;box-shadow:0 0 8px 0 var(--gold-glow-strong);}
 
 /* TEACHING CARD */
 .lesson-icon{
@@ -534,7 +511,6 @@ body{
   </div>
 </div>
 
-<div class="dots" id="dotsContainer"></div>
 
 <script>
 // ==================== DATA ====================
@@ -951,7 +927,6 @@ function render() {
     }
   });
   wrap.innerHTML = html;
-  updateDots();
   updateProgress();
   scrollToCard(state.currentCard, false);
 }
@@ -1027,29 +1002,11 @@ function updateInView() {
   document.getElementById('navArrows').style.display = isSummary ? 'none' : '';
 }
 
-// ==================== DOTS ====================
+// ==================== PROGRESS TRACKING ====================
 function updateDotsFromScroll() {
   const wrap = document.getElementById('cardsWrap');
   const current = Math.round(wrap.scrollLeft / wrap.clientWidth);
-  if (current !== state.currentCard) {
-    state.currentCard = current;
-    updateDots();
-  }
-}
-
-function updateDots() {
-  const reg = buildCardRegistry();
-  const container = document.getElementById('dotsContainer');
-  let html = '';
-  reg.forEach((card, idx) => {
-    let cls = 'dot';
-    if (idx === state.currentCard) cls += ' current';
-    else if (state.answered.has(idx)) {
-      cls += state.correctAnswers.has(idx) ? ' quiz-passed' : ' wrong';
-    }
-    html += `<span class="${cls}"></span>`;
-  });
-  container.innerHTML = html;
+  state.currentCard = current;
 }
 
 function updateProgress() {
