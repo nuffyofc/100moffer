@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>$100M Offers — Learn & Apply</title>
+<style>
+:root {
+  --bg: #07060c;
+  --surface: #121120;
+  --surface2: #19182c;
+  --surface3: #232238;
+  --gold: #f5c14d;
+  --gold2: #f0a431;
+  --gold-dim: #c98a1f;
+  --gold-glow: rgba(245,193,77,0.16);
+  --gold-glow-strong: rgba(245,193,77,0.30);
+  --green: #34d399;
+  --green-dim: #16a34a;
+  --green-glow: rgba(52,211,153,0.14);
+  --red: #f87171;
+  --red-glow: rgba(248,113,113,0.12);
+  --text: #f1f0f7;
+  --text2: #a6a4c2;
+  --text3: #6e6c8d;
+  --border: #28253f;
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --shadow-gold: 0 8px 24px -8px rgba(245,193,77,0.45);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;touch-action:pan-y}
+body{
+  font-family:var(--font);
+  background:
+    radial-gradient(circle at 15% -10%, rgba(245,193,77,0.10), transparent 45%),
+    radial-gradient(circle at 100% 110%, rgba(52,211,153,0.06), transparent 45%),
+    var(--bg);
+  color:var(--text);
+  display:flex;
+  flex-direction:column;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* HEADER */
+.header{
+  flex-shrink:0;
+  padding:12px 16px;
+  background:linear-gradient(180deg, rgba(18,17,32,0.97), rgba(18,17,32,0.85));
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  z-index:10;
+  min-height:52px;
+}
+.header .title{
+  font-size:13px;font-weight:800;
+  background:linear-gradient(90deg, var(--gold), var(--gold2));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  letter-spacing:-0.2px;
+}
+.header .score{
+  font-size:11.5px;font-weight:600;color:var(--text2);
+  white-space:nowrap;
+  background:var(--surface2);
+  border:1px solid var(--border);
+  padding:4px 10px;border-radius:20px;
+}
+.header .score span{color:var(--gold);font-weight:800;}
+.progress-bar{
+  flex-shrink:0;
+  height:4px;
+  background:var(--border);
+  position:relative;
+  overflow:hidden;
+}
+.progress-fill{
+  height:100%;
+  background:linear-gradient(90deg, var(--gold-dim), var(--gold), var(--gold2));
+  transition:width .45s cubic-bezier(.22,.9,.32,1);
+  width:0%;
+  box-shadow:0 0 10px 1px var(--gold-glow-strong);
+}
+
+/* CARDS CONTAINER */
+.cards-wrap{
+  flex:1;
+  display:flex;
+  overflow-x:auto;
+  overflow-y:hidden;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  scroll-behavior:smooth;
+  position:relative;
+}
+.cards-wrap::-webkit-scrollbar{display:none}
+.card{
+  flex:0 0 100%;
+  width:100vw;
+  height:100%;
+  scroll-snap-align:start;
+  display:flex;
+  flex-direction:column;
+  padding:22px 18px 12px;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  transition:opacity .35s ease, transform .35s ease;
+  opacity:0.45;
+  transform:scale(0.96);
+  will-change:opacity,transform;
+}
+.card.in-view{
+  opacity:1;
+  transform:scale(1);
+}
+
+/* DOTS */
+.dots{
+  flex-shrink:0;
+  display:flex;
+  justify-content:center;
+  gap:5px;
+  padding:10px 14px 12px;
+  background:linear-gradient(0deg, rgba(18,17,32,0.97), rgba(18,17,32,0.85));
+  backdrop-filter:blur(10px);
+  border-top:1px solid var(--border);
+  overflow-x:auto;
+  min-height:30px;
+}
+.dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--border);
+  flex-shrink:0;
+  transition:all .25s cubic-bezier(.34,1.56,.64,1);
+}
+.dot.passed{background:var(--green)}
+.dot.quiz-passed{background:var(--gold);box-shadow:0 0 6px 0 var(--gold-glow-strong)}
+.dot.wrong{background:var(--red)}
+.dot.current{background:var(--gold);width:18px;height:7px;border-radius:4px;box-shadow:0 0 8px 0 var(--gold-glow-strong);}
+
+/* TEACHING CARD */
+.lesson-icon{
+  width:46px;height:46px;border-radius:14px;
+  background:linear-gradient(135deg, var(--gold-glow), transparent);
+  border:1px solid var(--gold-glow-strong);
+  color:var(--gold);
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;margin-bottom:12px;flex-shrink:0;
+  box-shadow:var(--shadow-gold);
+}
+.lesson-label{
+  font-size:10px;text-transform:uppercase;letter-spacing:1.5px;
+  color:var(--text3);margin-bottom:3px;font-weight:700;
+}
+.lesson-title{
+  font-size:18px;font-weight:800;margin-bottom:12px;
+  letter-spacing:-0.4px;line-height:1.25;
+}
+.lesson-body{
+  font-size:13.5px;line-height:1.75;color:var(--text2);
+  margin-bottom:10px;
+}
+.lesson-body p{margin-bottom:11px}
+.lesson-body strong{color:var(--text);font-weight:700;}
+.lesson-quote{
+  position:relative;
+  background:linear-gradient(135deg, var(--gold-glow), rgba(245,193,77,0.04));
+  border-left:3px solid var(--gold);
+  padding:12px 16px 12px 36px;border-radius:4px 12px 12px 4px;
+  font-size:12.5px;font-style:italic;color:var(--text);
+  line-height:1.55;margin:12px 0;
+}
+.lesson-quote::before{
+  content:'\201C';
+  position:absolute;left:10px;top:2px;
+  font-size:26px;color:var(--gold);font-style:normal;
+  font-family:Georgia,serif;opacity:0.85;
+}
+.lesson-btn{
+  margin-top:auto;padding-top:14px;
+}
+.btn-next{
+  display:block;width:100%;
+  padding:15px;border:none;border-radius:12px;
+  background:linear-gradient(135deg, var(--gold), var(--gold2));
+  color:#1a1306;font-size:15px;font-weight:800;cursor:pointer;
+  font-family:var(--font);
+  box-shadow:var(--shadow-gold);
+  transition:transform .15s ease, box-shadow .15s ease, filter .15s ease;
+  letter-spacing:-0.1px;
+}
+.btn-next:hover{filter:brightness(1.06);transform:translateY(-1px);}
+.btn-next:active{transform:scale(0.97) translateY(0);box-shadow:0 4px 12px -4px rgba(245,193,77,0.4);}
+
+/* QUIZ CARD */
+.quiz-label{
+  font-size:10px;text-transform:uppercase;letter-spacing:1.5px;
+  color:var(--text3);margin-bottom:3px;font-weight:700;
+}
+.quiz-module-title{
+  font-size:13px;font-weight:700;color:var(--gold);margin-bottom:10px;
+  text-transform:uppercase;letter-spacing:0.5px;
+}
+.quiz-question{
+  font-size:16px;font-weight:700;line-height:1.45;margin-bottom:16px;
+  letter-spacing:-0.2px;
+}
+.choices{display:flex;flex-direction:column;gap:9px;}
+.choice{
+  display:block;width:100%;
+  padding:13px 15px;
+  border:1.5px solid var(--border);
+  border-radius:12px;
+  background:var(--surface2);
+  color:var(--text);
+  font-size:13.5px;
+  text-align:left;
+  cursor:pointer;
+  font-family:var(--font);
+  transition:border-color .15s ease, background .15s ease, transform .12s ease, box-shadow .15s ease;
+  line-height:1.4;
+  -webkit-tap-highlight-color:transparent;
+}
+.choice:hover{border-color:var(--text3);background:var(--surface3);}
+.choice:active{transform:scale(0.98)}
+.choice.selected-correct{
+  border-color:var(--green);
+  background:var(--green-glow);
+  color:var(--green);
+  animation:popCorrect .35s ease;
+  box-shadow:0 0 0 1px var(--green) inset;
+}
+.choice.selected-wrong{
+  border-color:var(--red);
+  background:var(--red-glow);
+  color:var(--red);
+  animation:shakeWrong .35s ease;
+  box-shadow:0 0 0 1px var(--red) inset;
+}
+.choice.show-correct{
+  border-color:var(--green);
+  background:var(--green-glow);
+  color:var(--green);
+  box-shadow:0 0 0 1px var(--green) inset;
+}
+.choice.disabled{pointer-events:none;opacity:0.65}
+.choice.disabled.show-correct,.choice.disabled.selected-correct{opacity:1}
+@keyframes popCorrect{0%{transform:scale(1)}40%{transform:scale(1.03)}100%{transform:scale(1)}}
+@keyframes shakeWrong{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+
+/* FEEDBACK */
+.feedback{
+  margin-top:12px;
+  padding:12px 14px;
+  border-radius:10px;
+  font-size:12.5px;line-height:1.55;
+  display:none;
+  align-items:flex-start;gap:8px;
+}
+.feedback.show{display:flex;animation:fadeIn .25s ease}
+.feedback.correct{background:var(--green-glow);color:var(--green);border:1px solid var(--green-dim);}
+.feedback.incorrect{background:var(--red-glow);color:var(--red);border:1px solid var(--red);}
+.feedback .fb-icon{flex-shrink:0;font-size:15px;line-height:1.4;}
+.feedback .fb-text{color:var(--text2);}
+.feedback .fb-text strong{color:inherit}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)}}
+
+/* WELCOME CARD */
+.welcome-icon{
+  width:72px;height:72px;border-radius:20px;
+  background:radial-gradient(circle at 30% 30%, var(--gold-glow-strong), var(--gold-glow));
+  border:1px solid var(--gold-glow-strong);
+  color:var(--gold);
+  display:flex;align-items:center;justify-content:center;
+  font-size:34px;margin:12px auto 16px;
+  box-shadow:0 12px 30px -10px rgba(245,193,77,0.5);
+  animation:floatIcon 3.2s ease-in-out infinite;
+}
+@keyframes floatIcon{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.welcome-title{
+  font-size:25px;font-weight:800;text-align:center;
+  letter-spacing:-0.6px;line-height:1.2;
+  margin-bottom:5px;
+  background:linear-gradient(90deg, var(--text), var(--gold));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.welcome-sub{
+  font-size:13px;color:var(--text3);text-align:center;
+  margin-bottom:18px;
+}
+.welcome-features{
+  list-style:none;padding:0;
+  margin-bottom:22px;
+}
+.welcome-features li{
+  padding:10px 13px;margin-bottom:7px;
+  background:var(--surface2);border:1px solid var(--border);border-radius:10px;
+  font-size:13px;color:var(--text2);
+  display:flex;align-items:center;gap:9px;
+}
+.welcome-features li::before{
+  content:'';width:7px;height:7px;border-radius:50%;
+  background:linear-gradient(135deg, var(--gold), var(--gold2));
+  flex-shrink:0;
+  box-shadow:0 0 6px 0 var(--gold-glow-strong);
+}
+
+/* FINAL CARD */
+.final-grade{
+  font-size:56px;font-weight:800;text-align:center;
+  margin:10px 0;letter-spacing:-2px;
+  text-shadow:0 0 30px currentColor;
+}
+.final-grade.a{color:var(--green)}
+.final-grade.b{color:var(--gold)}
+.final-grade.c{color:#fb923c}
+.final-grade.d{color:var(--red)}
+.final-stats{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;
+  margin:14px 0;
+}
+.stat-box{
+  background:var(--surface2);border:1px solid var(--border);border-radius:12px;
+  padding:12px;text-align:center;
+}
+.stat-box .num{font-size:24px;font-weight:800;color:var(--gold);}
+.stat-box .lbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.6px;margin-top:3px;}
+.module-review{
+  margin:12px 0;
+  background:var(--surface2);border:1px solid var(--border);border-radius:12px;
+  padding:4px 14px;
+}
+.module-review-item{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:8px 0;border-bottom:1px solid var(--border);
+  font-size:12px;
+}
+.module-review-item:last-child{border-bottom:none}
+.module-review-item .mr-name{color:var(--text2)}
+.module-review-item .mr-score{font-weight:700;padding:2px 8px;border-radius:6px;}
+.module-review-item .mr-score.good{color:var(--green);background:var(--green-glow)}
+.module-review-item .mr-score.ok{color:var(--gold);background:var(--gold-glow)}
+.module-review-item .mr-score.bad{color:var(--red);background:var(--red-glow)}
+
+/* NAV ARROWS */
+.nav-arrows{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:5;
+}
+.nav-arrow{
+  position:absolute;
+  top:0;bottom:0;
+  width:30%;
+  display:flex;align-items:center;
+  pointer-events:auto;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.nav-arrow.prev{left:0;justify-content:flex-start;padding-left:10px;}
+.nav-arrow.next{right:0;justify-content:flex-end;padding-right:10px;}
+.nav-arrow span{
+  width:38px;height:38px;border-radius:50%;
+  background:rgba(18,17,32,0.75);
+  border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;color:var(--text2);
+  backdrop-filter:blur(6px);
+  transition:transform .15s ease, border-color .15s ease, color .15s ease;
+}
+.nav-arrow:hover span{border-color:var(--gold-dim);color:var(--gold);}
+.nav-arrow:active span{transform:scale(0.88);}
+
+/* UTILITIES */
+.flex-1{flex:1}
+.mt-a{margin-top:auto}
+.text-center{text-align:center}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="title">$100M Offers — Learn &amp; Apply</div>
+  <div class="score">Score: <span id="scoreDisplay">0</span>/60</div>
+</div>
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<div class="cards-wrap" id="cardsWrap">
+  <!-- Cards injected by JS -->
+</div>
+
+<div class="dots" id="dotsContainer"></div>
+
+<div class="nav-arrows" id="navArrows">
+  <div class="nav-arrow prev" id="prevArrow" onclick="prevCard()"><span>&#8592;</span></div>
+  <div class="nav-arrow next" id="nextArrow" onclick="nextCard()"><span>&#8594;</span></div>
+</div>
+
+<script>
+// ==================== DATA ====================
+const modules = [
+  {
+    id:1, title:"Origin &amp; Mindset", icon:"&#9733;",
+    teaching:`<div class="lesson-icon">&#9733;</div>
+    <div class="lesson-label">Module 1 of 12</div>
+    <div class="lesson-title">How a Grand Slam Offer Changed Everything</div>
+    <div class="lesson-body">
+      <p>On <strong>Christmas Eve 2016</strong>, Alex Hormozi had almost no money in his bank account. His gym business was failing so badly that he couldn't even give his services away for free. He was $150,000 in debt and eating cereal for dinner.</p>
+      <p>Then he learned one idea that changed everything: <strong>"Make people an offer so good they'd feel stupid saying no."</strong> Within days of applying this, his business turned around. Within 48 months, he went from broke to generating $120 million in revenue across four industries.</p>
+      <p>The offer is the starting point of every business transaction. Without an offer, you have no business. The question is: <strong>how good is yours?</strong></p>
+    </div>
+    <div class="lesson-quote">"An offer is the goods and services you agree to provide, how you accept payment, and the terms of the agreement. It initiates every value exchange."</div>`,
+    questions:[
+      {q:'What did Alex Hormozi have in his bank account on Christmas Eve 2016?',c:['$2.7 million','Almost nothing — near broke','$100,000 from investors'],r:1,e:'Hormozi was at rock bottom with almost nothing. This crisis forced him to learn how to create Grand Slam Offers — a skill that made him $120M.'},
+      {q:'What single idea turned Hormozi\'s business around?',c:['Better advertising funnels','Make an offer so good they feel stupid saying no','Raise venture capital funding'],r:1,e:'Travis Jones told him: "Make people an offer so good they would feel stupid saying no." That became the foundation of everything he built.'},
+      {q:'How long did it take Hormozi to go from broke to $120M in revenue?',c:['48 months','10 years','6 months'],r:0,e:'In just 48 months (4 years), Hormozi went from $150k in debt to generating $120M in revenue across gyms, ecommerce, software, and brick-and-mortar.'},
+      {q:'An "offer" is best defined as:',c:['Just the price of the product','Goods, services, payment terms, and agreement','Only the product features'],r:1,e:'An offer includes everything: what you provide, how you deliver it, how they pay, and the terms. This is why Hormozi says the offer is "the starting point of any conversation to initiate a transaction."'},
+    ]
+  },
+  {
+    id:2, title:"Grand Slam Offer", icon:"&#127922;",
+    teaching:`<div class="lesson-icon">&#127922;</div>
+    <div class="lesson-label">Module 2 of 12</div>
+    <div class="lesson-title">What Is a Grand Slam Offer?</div>
+    <div class="lesson-body">
+      <p>A <strong>Grand Slam Offer</strong> is an offer so valuable that customers focus entirely on what they'll gain rather than what they'll spend. It transforms selling from convincing into simply presenting an opportunity.</p>
+      <p>Hormozi defines it as: <em>"An offer you present to the marketplace that cannot be compared to any other product or service available, combining an attractive promotion, an unmatchable value proposition, a premium price, and an unbeatable guarantee."</em></p>
+      <p>This creates a <strong>"category of one"</strong> — your offer is so unique that price comparison becomes impossible. You're no longer competing on price. You're the only option.</p>
+    </div>
+    <div class="lesson-quote">"A Grand Slam Offer gets you out of the pricing war and into a category of one."</div>`,
+    questions:[
+      {q:'A Grand Slam Offer makes price comparison:',c:['Easy for the customer','Impossible — you are in a category of one','Optional'],r:1,e:'When your offer is uniquely stacked with value, bonuses, and guarantees, nobody else has the same combination. Customers can\'t compare prices because there\'s nothing to compare to.'},
+      {q:'To grow revenue, you need all of these EXCEPT:',c:['More customers','Higher average purchase value','Lower prices than competitors'],r:2,e:'Hormozi says the three levers are: more customers, increasing their purchase value, and getting them to buy more often. Lowering prices is NOT one of them.'},
+      {q:'A "category of one" means:',c:['You target the smallest possible niche','Your offer cannot be compared to anything else','You only sell one product'],r:1,e:'A category of one means your offer is so unique in its combination of value elements that no competitor offers the same thing. You\'ve essentially created your own market category.'},
+      {q:'Which is NOT an element of a Grand Slam Offer?',c:['Premium price','Unbeatable guarantee','Lowest price in the market'],r:2,e:'A Grand Slam Offer combines: premium price, unmatchable value, unbeatable guarantee, and unique packaging. Lowest price is the opposite of what Hormozi teaches.'},
+      {q:'How many Grand Slam Offers do you need to retire?',c:['Ten','One','Zero — you need multiple'],r:1,e:'Hormozi states: "The good news is that in business, you only need to hit one Grand Slam Offer to retire forever." One breakthrough offer can change your entire financial life.'},
+    ]
+  },
+  {
+    id:3, title:"The Commodity Problem", icon:"&#9888;",
+    teaching:`<div class="lesson-icon">&#9888;</div>
+    <div class="lesson-label">Module 3 of 12</div>
+    <div class="lesson-title">The Race to the Bottom</div>
+    <div class="lesson-body">
+      <p>When your product is seen as a <strong>commodity</strong> — the same as everyone else's — the only thing customers compare is price. This starts a vicious cycle called the <strong>"race to the bottom"</strong> where everyone keeps cutting prices until margins vanish.</p>
+      <p>The race to the bottom forces you to cut costs, which means lower wages, lower quality, and less innovation. It's a death spiral.</p>
+      <p>The alternative is <strong>differentiation</strong>. When your offer is unique and valuable, customers make <strong>value-driven purchases</strong> based on the outcome you deliver, not the price tag. This is how you escape the commodity trap.</p>
+    </div>
+    <div class="lesson-quote">"If you are a commodity, you will compete on price. If you compete on price, you will lose. Differentiate or die."</div>`,
+    questions:[
+      {q:'The "race to the bottom" refers to:',c:['Competing to offer the highest quality','Cutting prices until profit margins vanish','Launching products faster than competitors'],r:1,e:'The race to the bottom is what happens when businesses compete on price alone. Each round of cuts reduces margins until there\'s no profit left. Everyone loses.'},
+      {q:'A commoditized business competes primarily on:',c:['Price','Value','Customer service'],r:0,e:'Commodities are interchangeable. When customers see no difference between options, they choose the cheapest. This forces businesses into price-only competition.'},
+      {q:'The race to the bottom typically leads to:',c:['Better products and higher quality','Lower wages and reduced quality','More innovation and growth'],r:1,e:'When margins vanish, businesses cut costs — wages, materials, quality. Innovation stops because there\'s no money to invest. It\'s a downward spiral.'},
+      {q:'The solution to commoditization is:',c:['Lower your prices further','Create a unique, incomparable offer','Spend more on advertising'],r:1,e:'Hormozi\'s solution: differentiate your offer so completely that price comparison becomes impossible. A unique offer wins without competing on price.'},
+      {q:'A value-driven purchase focuses on:',c:['Getting the cheapest option','The outcome and transformation','Brand loyalty only'],r:1,e:'When customers buy based on value, they care about the result — the dream outcome. Price becomes secondary to the transformation you deliver.'},
+    ]
+  },
+  {
+    id:4, title:"Starving Crowd", icon:"&#127760;",
+    teaching:`<div class="lesson-icon">&#127760;</div>
+    <div class="lesson-label">Module 4 of 12</div>
+    <div class="lesson-title">Finding Your Starving Crowd</div>
+    <div class="lesson-body">
+      <p>Before you build an offer, you need a <strong>market</strong> — a group of people who desperately want what you sell. Hormozi calls this a <strong>"starving crowd."</strong></p>
+      <p>Four criteria define a starving crowd:</p>
+      <p><strong>1) Massive pain</strong> — They don't just want your solution, they desperately need it. The pain is the pitch.</p>
+      <p><strong>2) Purchasing power</strong> — They can afford to pay. If they have no money, your offer doesn't matter.</p>
+      <p><strong>3) Easy to target</strong> — You can reach them through specific channels, groups, or communities.</p>
+      <p><strong>4) Growing</strong> — A growing market is a tailwind. A shrinking market is a headwind.</p>
+      <p>Hormozi ranks: <strong>Starving crowd > Offer strength > Persuasion skills.</strong> Even with a bad offer and no sales skill, a great market will make you money.</p>
+    </div>
+    <div class="lesson-quote">"We are not trying to create demand. We are trying to channel it."</div>`,
+    questions:[
+      {q:'A "starving crowd" market has all of these EXCEPT:',c:['Massive pain','Low purchasing power','Easy to target and growing'],r:1,e:'A starving crowd must have pain, money, reachability, and growth. Without purchasing power, they can\'t buy no matter how good your offer is.'},
+      {q:'According to Hormozi, the pain in the market is proportional to:',c:['The price you can charge','The size of the market','Your advertising budget'],r:0,e:'\nThe degree of pain determines the price you can charge. More pain = higher price. As Hormozi says, "The pain is the pitch."'},
+      {q:'What does "the pain is the pitch" mean?',c:['Your pitch should be painful to hear','Articulating their exact problem accurately sells itself','Painful marketing works best'],r:1,e:'When you can describe your prospect\'s pain better than they can, they instantly trust you. They think "this person gets me." That trust drives the sale.'},
+      {q:'Which is most important for business success?',c:['A starving crowd market','Strong persuasion skills','A well-designed website'],r:0,e:'Hormozi\'s hierarchy: Starving crowd > Offer strength > Persuasion skills. A great market with a bad offer beats a bad market with a great offer.'},
+      {q:'If you are under $10M/year in revenue, niching down will:',c:['Limit your growth potential','Make you more money','Increase your competition'],r:1,e:'Hormozi advises: if under $10M/year, niching down makes you more money. The more specific your niche, the higher the price you can charge. Broaden only after $10M.'},
+    ]
+  },
+  {
+    id:5, title:"Value-Based Pricing", icon:"&#36;",
+    teaching:`<div class="lesson-icon">&#36;</div>
+    <div class="lesson-label">Module 5 of 12</div>
+    <div class="lesson-title">Charge What It's Worth</div>
+    <div class="lesson-body">
+      <p>Most entrepreneurs underprice because they're afraid. Hormozi makes a <strong>moral argument</strong> for premium pricing: it's not greed — it's the <strong>Virtuous Cycle of Price.</strong></p>
+      <p>Higher prices → higher margins → better service delivery → better client results → justifies the higher price → attracts better clients. This self-reinforcing loop improves <em>everything</em>.</p>
+      <p>Low prices signal low confidence. If you charge $500 for something worth $50,000, customers don't think "what a deal" — they think "what's wrong with it?" Your price is always a signal of quality.</p>
+      <p>Price should be based on <strong>the value of the outcome, not the cost of delivery.</strong> If you save a client $100k, charging $20k is rational.</p>
+    </div>
+    <div class="lesson-quote">"Price is not just a number. It is a signal. Low prices communicate low confidence, and low confidence communicates low capability."</div>`,
+    questions:[
+      {q:'The "Virtuous Cycle of Price" describes:',c:['Lower prices attracting more customers','High prices funding better delivery which justifies the price','Prices staying the same forever'],r:1,e:'High prices → more profit → invest in better delivery → better results → justify high price. A self-reinforcing cycle of quality and value.'},
+      {q:'Low prices typically signal to customers:',c:['Great value','Low confidence and low capability','Generosity from the seller'],r:1,e:'Price is a quality signal. Low prices make prospects suspicious: "If it\'s that cheap, it probably doesn\'t work." Your price communicates your confidence.'},
+      {q:'Price should be determined by:',c:['What competitors charge','The value of the outcome to the customer','The cost of production'],r:1,e:'Price based on outcome value, not cost. If you deliver $100k in value, charging $20k is a great deal for the customer, regardless of what it costs you to deliver.'},
+      {q:'Higher prices tend to result in:',c:['More demanding and difficult clients','Lower client demands and better results','More refund requests'],r:1,e:'Hormozi found that higher prices attract better clients who are more committed, less demanding, and get better results. Low prices attract the worst clients.'},
+      {q:'Why does Hormozi call premium pricing a "moral" choice?',c:['Because you make more money','Because high margins let you deliver better service and results','Because customers prefer high prices'],r:1,e:'High margins give you the resources to truly serve your clients well. Low margins force you to cut corners. Premium pricing lets you deliver premium results — which is better for everyone.'},
+    ]
+  },
+  {
+    id:6, title:"Value Equation", icon:"&#8776;",
+    teaching:`<div class="lesson-icon">&#8776;</div>
+    <div class="lesson-label">Module 6 of 12</div>
+    <div class="lesson-title">The Value Equation</div>
+    <div class="lesson-body">
+      <p>The Value Equation is Hormozi's core framework. It quantifies <strong>perceived value</strong>:</p>
+      <p style="text-align:center;font-size:18px;font-weight:700;color:var(--gold);margin:8px 0;font-family:Georgia,serif">V = (DO &times; PL) / (TD &times; ES)</p>
+      <p><strong>Dream Outcome</strong> &times; <strong>Perceived Likelihood</strong> of getting it, divided by <strong>Time Delay</strong> &times; <strong>Effort &amp; Sacrifice</strong>.</p>
+      <p>To maximize value: <strong>increase the numerator</strong> (DO &times; PL) and <strong>decrease the denominator</strong> (TD &times; ES). Beginners obsess over making bigger promises (numerator). Hormozi says legendary companies like Amazon win by mastering the denominator — making things instant and effortless.</p>
+      <p>The biggest leverage for most businesses is <strong>reducing Time Delay and Effort</strong>. Making things faster and easier is often more valuable than promising a bigger outcome.</p>
+    </div>
+    <div class="lesson-quote">"The biggest leverage for most businesses is in the denominator: reduce the Time and Effort it takes for the client to get the result."</div>`,
+    questions:[
+      {q:'The complete Value Equation formula is:',c:['Value = Price / Quality','Value = (Dream Outcome &times; Likelihood) / (Time Delay &times; Effort)','Value = Features &times; Benefits / Cost'],r:1,e:'V = (DO &times; PL) / (TD &times; ES). Maximize Dream Outcome and Perceived Likelihood; minimize Time Delay and Effort & Sacrifice.'},
+      {q:'To increase value, you should:',c:['Increase the numerator and decrease the denominator','Decrease the numerator and increase the denominator','Keep all variables equal'],r:0,e:'Increase Dream Outcome and Perceived Likelihood (numerator). Decrease Time Delay and Effort (denominator). This maximizes perceived value.'},
+      {q:'The numerator of the Value Equation consists of:',c:['Time Delay &times; Effort &amp; Sacrifice','Dream Outcome &times; Perceived Likelihood','Price &times; Features'],r:1,e:'The top half is Dream Outcome &times; Perceived Likelihood of Achievement. These are the two things you want to increase.'},
+      {q:'The denominator of the Value Equation consists of:',c:['Dream Outcome &times; Perceived Likelihood','Time Delay &times; Effort &amp; Sacrifice','Price &times; Cost'],r:1,e:'The bottom half is Time Delay &times; Effort & Sacrifice. These are the two things you want to decrease.'},
+      {q:'Hormozi says the biggest leverage for most businesses is:',c:['Making bigger promises (raising numerator)','Reducing Time Delay and Effort (lowering denominator)','Lowering their price'],r:1,e:'Most businesses focus on promising more. Hormozi says the real leverage is reducing time and effort — make it instant and effortless. "Fast beats free."'},
+      {q:'The Value Equation measures:',c:['Actual product quality','Perceived value in the customer\'s mind','Production cost efficiency'],r:1,e:'The Value Equation is a model of perceived value. It\'s about what the customer believes, not objective reality. Perception is reality in buying decisions.'},
+    ]
+  },
+  {
+    id:7, title:"Dream Outcome & Likelihood", icon:"&#127919;",
+    teaching:`<div class="lesson-icon">&#127919;</div>
+    <div class="lesson-label">Module 7 of 12</div>
+    <div class="lesson-title">Dream Outcome &amp; Perceived Likelihood</div>
+    <div class="lesson-body">
+      <p><strong>Dream Outcome</strong> is the specific result your customer wants. Vague promises fail. Specific ones sell. "Get more leads" vs <em>"Get 47 qualified appointments in 14 days"</em> — which sounds real?</p>
+      <p><strong>Perceived Likelihood</strong> is how certain the customer feels they'll achieve that outcome. This is built through <strong>proof</strong>: testimonials, case studies, screenshots of results, and guarantees.</p>
+      <p>People buy the <strong>dream outcome</strong> — the long-term transformation. But they <strong>stay</strong> for the short-term experiences along the way. You need both: sell the dream, deliver the journey.</p>
+      <p>A guarantee directly increases Perceived Likelihood because it removes the risk. If you guarantee the result, they believe it more.</p>
+    </div>
+    <div class="lesson-quote">"They buy the dream, but they stay for the benefits they discover along the way."</div>`,
+    questions:[
+      {q:'A strong Dream Outcome is best described as:',c:['Vague and broad to appeal to everyone','Specific, vivid, and measurable','Cheap and affordable'],r:1,e:'Specificity sells. "Get more leads" is weak. "Get 47 qualified appointments in 14 days" is a Dream Outcome. The more vivid, the more valuable it feels.'},
+      {q:'Which of these is a better Dream Outcome?',c:['"Save money on marketing"','"Reduce your customer acquisition cost by 40% in 60 days without increasing ad spend"','"Better marketing results"'],r:1,e:'The second option is specific, measurable, and has a timeframe. That\'s the power of a well-articulated Dream Outcome.'},
+      {q:'The thing people buy is:',c:['The product features','The long-term dream outcome / transformation','The lowest price available'],r:1,e:'People pay for the result, not the features. They buy the dream of what their life/business will look like after the transformation.'},
+      {q:'A guarantee directly increases which variable?',c:['Dream Outcome','Perceived Likelihood of Achievement','Time Delay'],r:1,e:'A guarantee increases Perceived Likelihood because it removes the risk. If you promise your money back, the customer believes you\'ll deliver.'},
+      {q:'Perceived Likelihood is best increased by:',c:['Making bigger claims','Providing proof: testimonials, case studies, screenshots, data','Lowering the price'],r:1,e:'Proof stacks — testimonials, case studies, numbers, screenshots — build belief. Customers need evidence that your solution works for people like them.'},
+    ]
+  },
+  {
+    id:8, title:"Time Delay & Effort", icon:"&#9200;",
+    teaching:`<div class="lesson-icon">&#9200;</div>
+    <div class="lesson-label">Module 8 of 12</div>
+    <div class="lesson-title">Time Delay &amp; Effort &amp; Sacrifice</div>
+    <div class="lesson-body">
+      <p><strong>Time Delay</strong> is how long the customer waits to get results. <strong>Fast wins.</strong> The same outcome delivered in 24 hours is worth more than the same outcome in 6 months.</p>
+      <p>Hormozi's principle: <strong>"Fast beats free."</strong> Customers value speed so much they'd rather pay than wait.</p>
+      <p><strong>Effort &amp; Sacrifice</strong> is how much work the customer has to do. <strong>Less is more.</strong> Done-for-you solutions are worth more than DIY. Remove every bit of friction.</p>
+      <p>Strategies: immediate wins on day one, pre-built templates, concierge setup, plug-and-play delivery. Ask: <em>"How can I deliver the first result before they finish their coffee?"</em></p>
+    </div>
+    <div class="lesson-quote">"Fast beats free. Speed has more perceived value than zero cost. People will pay to get it now."</div>`,
+    questions:[
+      {q:'To maximize value, Time Delay should be:',c:['As long as possible','As short as possible','Irrelevant to value'],r:1,e:'Shorter Time Delay = higher value. The faster the customer gets results, the more they\'ll pay. Same outcome, faster delivery = premium price.'},
+      {q:'"Fast beats free" means:',c:['Speed has more perceived value than zero cost','Free is always the best option','Speed doesn\'t matter if it\'s free'],r:0,e:'Hormozi\'s research showed customers prefer paying for fast results over getting slow results for free. Speed is more valuable than zero price.'},
+      {q:'Low Effort & Sacrifice in an offer means:',c:['The customer has to learn new skills','The customer does minimal to no work','The customer does all the work themselves'],r:1,e:'Minimize what the customer must do. Done-for-you delivery, templates, automated systems — these reduce Effort & Sacrifice and increase value.'},
+      {q:'A "done-for-you" delivery component directly improves:',c:['Dream Outcome','Effort &amp; Sacrifice (makes it lower)','Price'],r:1,e:'Done-for-you reduces Effort & Sacrifice to near zero. The customer gets the result without doing the work. This dramatically increases perceived value.'},
+      {q:'Which strategy reduces Time Delay most effectively?',c:['Adding more features','Delivering an immediate win on day one','Charging a lower price'],r:1,e:'Create a "day 1 win" — a fast early result that proves value immediately. This compresses Time Delay and builds trust for the longer transformation.'},
+    ]
+  },
+  {
+    id:9, title:"Psychological Value", icon:"&#129504;",
+    teaching:`<div class="lesson-icon">&#129504;</div>
+    <div class="lesson-label">Module 9 of 12</div>
+    <div class="lesson-title">Psychological vs Logical Solutions</div>
+    <div class="lesson-body">
+      <p>Hormozi distinguishes between <strong>logical solutions</strong> and <strong>psychological solutions</strong>. Logical solutions fix the actual problem. Psychological solutions fix how the customer <em>feels</em> about the problem.</p>
+      <p>Example: London trains were slow. The logical solution: make trains faster (expensive). The psychological solution: install a map with moving dots showing train progress. The map didn't make trains faster — but passengers <em>felt</em> like waiting was shorter because they could see progress.</p>
+      <p><strong>Perception is reality.</strong> All markets ultimately sell <strong>status proxies</strong>. B2B = money (which is status). B2C = appearance, health, relationships (which are status). The more directly your offer connects to status, the more people will pay.</p>
+    </div>
+    <div class="lesson-quote">"Logical solutions fix problems. Psychological solutions fix how people feel about the problems. Most buying decisions are psychological, not logical."</div>`,
+    questions:[
+      {q:'A logical solution fixes the actual problem. A psychological solution:',c:['Is unnecessary','Fixes how the customer perceives the problem','Costs more than logical'],r:1,e:'Psychological solutions address perception, not mechanics. The London train map didn\'t speed up trains but made waiting feel shorter. Perception is reality in buying.'},
+      {q:'The London Underground train example demonstrated:',c:['That trains needed to be physically faster','A map showing progress fixed the perception of waiting time','That more train lines were needed'],r:1,e:'The digital map with moving dots showed passengers the train was coming. It didn\'t change speed — it changed the experience. A brilliant psychological solution.'},
+      {q:'According to Hormozi, all markets ultimately sell:',c:['Products and services','Status proxies','Information'],r:1,e:'B2B sells more money (status). B2C sells looks, health, relationships (status). The more directly your offer connects to status, the higher the price you can command.'},
+      {q:'"Perception is reality" means:',c:['Reality doesn\'t matter','What the customer believes is what determines value','Only facts matter in buying decisions'],r:1,e:'In the customer\'s mind, their perception IS reality. You can have the best product, but if they don\'t believe it works, it has no value to them. Belief drives purchase.'},
+      {q:'Customers stay for:',c:['The final outcome only','Short-term positive experiences along the journey','The guarantee'],r:1,e:'"They buy the dream, but they stay for the benefits they discover along the way." Short-term wins and positive experiences keep them engaged for the long transformation.'},
+    ]
+  },
+  {
+    id:10, title:"Problems, Trim & Stack", icon:"&#128221;",
+    teaching:`<div class="lesson-icon">&#128221;</div>
+    <div class="lesson-label">Module 10 of 12</div>
+    <div class="lesson-title">Problems, Solutions, Trim &amp; Stack</div>
+    <div class="lesson-body">
+      <p><strong>Problem Decomposition:</strong> List every single obstacle, fear, and friction point a customer faces on the way to their Dream Outcome. Then turn each into a named solution.</p>
+      <p>Example for weight loss: "I don't know what to eat" → meal plans. "I don't have time to cook" → 15-minute recipes. "I'll be hungry" → approved snack list.</p>
+      <p><strong>Trim &amp; Stack:</strong> Remove low-value, high-cost items (trim) and add high-value, low-cost items (stack). The 10x test: "What would I deliver if they paid 10x?" and "What would I deliver at 1/10th the price?" This stretches your thinking.</p>
+      <p>High-value, low-cost solutions: templates, recorded content, software, group coaching, communities. Low-value, high-cost: endless 1-on-1 calls, custom work for each client.</p>
+    </div>
+    <div class="lesson-quote">"How can I solve every single problem that my prospect has? If you don\'t know what they are, that\'s why we do this in-depth work."</div>`,
+    questions:[
+      {q:'Problem decomposition starts by:',c:['Listing your product features','Listing every obstacle the customer faces on the journey','Setting your price'],r:1,e:'First, list every barrier between the customer and their Dream Outcome. Every fear, every friction, every question. Then create solutions for each one.'},
+      {q:'Each identified customer problem should be turned into:',c:['Something to ignore','A named solution or deliverable','A reason to lower the price'],r:1,e:'Every problem becomes a named solution. This gives you a menu of value items to include in your offer.'},
+      {q:'"Trim" in Trim &amp; Stack means:',c:['Add more features to the offer','Remove low-value, high-cost items','Reduce the price'],r:1,e:'Trim removes delivery methods that cost you a lot but don\'t add much perceived value for the customer (like excessive 1-on-1 time). Clear them out.'},
+      {q:'"Stack" in Trim &amp; Stack means:',c:['Lower your delivery costs','Bundle high-value, low-cost solutions into the offer','Remove all bonuses'],r:1,e:'Stack means adding components that create high perceived value for the customer but cost you little to deliver (templates, recordings, automation).'},
+      {q:'The "10x test" asks:',c:['"Can I charge 10x more?"','"What would I deliver if the customer paid 10x or 1/10th?"','"Is my product 10x better than competitors?"'],r:1,e:'The 10x test stretches your imagination. At 10x price: what premium delivery would you include? At 1/10th: what\'s the stripped-down version? Both reveal creative ideas.'},
+      {q:'An example of a high-value, low-cost solution is:',c:['Weekly 1-on-1 consulting calls','A fill-in-the-blank template or recorded training','Custom software development per client'],r:1,e:'Templates, recorded trainings, and group formats deliver high value at low incremental cost per customer. They\'re the "stack" in Trim & Stack.'},
+    ]
+  },
+  {
+    id:11, title:"Enhancement & Guarantees", icon:"&#128737;",
+    teaching:`<div class="lesson-icon">&#128737;</div>
+    <div class="lesson-label">Module 11 of 12</div>
+    <div class="lesson-title">Bonuses, Guarantees, Scarcity &amp; Urgency</div>
+    <div class="lesson-body">
+      <p>Once your core offer is built, <strong>enhance it</strong> with psychological levers:</p>
+      <p><strong>Bonuses:</strong> Breaking your offer into named parts with assigned dollar values makes the total perceived value much higher. The sum of individual values should be at least <strong>10x the price</strong>.</p>
+      <p><strong>Guarantees (Risk Reversal):</strong> The stronger the guarantee, the more people buy. A performance-based guarantee — "If you don't get X result, you don't pay" — transfers risk from buyer to seller. This massively increases Perceived Likelihood.</p>
+      <p><strong>Scarcity &amp; Urgency:</strong> Limited spots and deadlines force decisions. When demand increases, Hormozi says: <em>"Cut supply and raise prices."</em></p>
+    </div>
+    <div class="lesson-quote">"A guarantee can simultaneously increase Perceived Likelihood and decrease perceived risk. It\'s the most powerful tool in your offer."</div>`,
+    questions:[
+      {q:'Bonuses increase perceived value because:',c:['They\'re free to create','Breaking the offer into named parts makes the total seem much larger','Customers expect them'],r:1,e:'When you list each component with a dollar value, the total perceived value multiplies. The customer thinks "I\'m getting $10k of value for $1k."'},
+      {q:'Good bonuses should be:',c:['Unrelated to the main offer','Aligned with the main transformation','As cheap as possible'],r:1,e:'Bonuses should feel like the "next logical step" in the transformation. They amplify the core offer, not distract from it.'},
+      {q:'The total perceived value of bonuses should be:',c:['Roughly equal to the price','At least 10x the price','Less than the cost of delivery'],r:1,e:'Hormozi advises that the sum of individual component values should be at least 10x the price. This makes the offer feel like an incredible deal.'},
+      {q:'A strong guarantee works because it:',c:['Lowers your business risk','Transfers risk from buyer to seller, increasing conversion','Only works for cheap products'],r:1,e:'Risk reversal removes the buyer\'s fear. "If it doesn\'t work, I get my money back" eliminates the biggest objection to purchase.'},
+      {q:'When demand increases, Hormozi advises you to:',c:['Lower prices to capture more market share','Cut supply and raise prices','Keep everything the same'],r:1,e:'Increasing demand + constrained supply = ability to raise prices. This maximizes profit and maintains scarcity. Don\'t race to the bottom — lean into value.'},
+    ]
+  },
+  {
+    id:12, title:"Naming & Execution", icon:"&#127912;",
+    teaching:`<div class="lesson-icon">&#127912;</div>
+    <div class="lesson-label">Module 12 of 12</div>
+    <div class="lesson-title">Naming, Delivery &amp; Putting It All Together</div>
+    <div class="lesson-body">
+      <p><strong>M-A-G-I-C Formula</strong> for naming your offer:</p>
+      <p><strong>M</strong>agnetic reason (hook: "free," "limited," "new")<br>
+      <strong>A</strong>vatar (target customer)<br>
+      <strong>G</strong>oal (dream outcome)<br>
+      <strong>I</strong>nterval (timeframe)<br>
+      <strong>C</strong>ontainer word (challenge, blueprint, bootcamp, system)</p>
+      <p>Use <strong>3-5 components</strong>. When the market fatigues, change the "wrapper" (name and presentation) while keeping the core offer the same.</p>
+      <p><strong>Sales to Fulfillment Continuum:</strong> Balance what\'s easy to sell vs easy to deliver. Start by over-delivering to generate cash flow, then optimize. The goal: <em>"Create flow. Monetize flow. Then add friction."</em></p>
+    </div>
+    <div class="lesson-quote">"Create flow. Monetize flow. Then add friction. First prove demand, then optimize delivery, then raise prices."</div>`,
+    questions:[
+      {q:'M-A-G-I-C stands for:',c:['Magnetic, Avatar, Goal, Interval, Container','Market, Action, Goal, Image, Cost','Make, A, Grand, Offer, Clear'],r:0,e:'Magnetic reason, Avatar (target), Goal (outcome), Interval (timeframe), Container word (challenge/blueprint/etc). Use 3-5 components per offer name.'},
+      {q:'The naming "wrapper" should include:',c:['Just the product name and price','3-5 components from the M-A-G-I-C formula','Only the customer avatar'],r:1,e:'A good offer name uses 3-5 elements: hook + who it\'s for + the result + the timeframe + the format. E.g.: "The 30-Day Agency Scaling Blueprint."'},
+      {q:'When your offer experiences market fatigue, you should:',c:['Create an entirely new product','Change the wrapper (name/presentation) while keeping the core offer','Lower your price'],r:1,e:'Change the creative: headline, images, duration, bonus, or pricing structure. The core Grand Slam Offer stays the same — you just re-package it.'},
+      {q:'The Sales to Fulfillment Continuum balances:',c:['Price and quantity','Ease of selling vs ease of delivery','Features vs benefits'],r:1,e:'Doing more for clients = easier to sell but harder to fulfill. Doing less = easier to fulfill but harder to sell. Find the sweet spot. Start by over-delivering, then optimize.'},
+    ]
+  }
+];
+
+// ==================== STATE ====================
+const state = {
+  currentCard: 0,
+  score: 0,
+  answered: new Set(),     // indices of answered question cards
+  correctAnswers: new Set(),
+  moduleScores: modules.map(() => ({ correct:0, total:0 })),
+  totalCards: 0,
+  cardTypes: [], // 'welcome' | 'teaching' | 'quiz-intro' | 'question' | 'final'
+};
+
+// Build card registry
+function buildCardRegistry() {
+  const cards = [];
+  cards.push({ type:'welcome' });
+  modules.forEach((mod, mi) => {
+    cards.push({ type:'teaching', moduleIndex:mi });
+    cards.push({ type:'quiz-intro', moduleIndex:mi });
+    for (let qi = 0; qi < mod.questions.length; qi++) {
+      cards.push({ type:'question', moduleIndex:mi, questionIndex:qi });
+    }
+  });
+  cards.push({ type:'final' });
+  return cards;
+}
+
+// ==================== RENDER ====================
+function render() {
+  const reg = buildCardRegistry();
+  state.totalCards = reg.length;
+  state.cardTypes = reg.map(r => r.type);
+  const wrap = document.getElementById('cardsWrap');
+  let html = '';
+  reg.forEach((card, idx) => {
+    const inView = idx === state.currentCard ? ' in-view' : '';
+    if (card.type === 'welcome') {
+      html += `<div class="card${inView}" data-index="${idx}">
+        <div style="display:flex;flex-direction:column;height:100%">
+          <div style="flex:1;display:flex;flex-direction:column;justify-content:center">
+            <div class="welcome-icon">&#128218;</div>
+            <div class="welcome-title">$100M Offers</div>
+            <div class="welcome-sub">by Alex Hormozi — Interactive Learning</div>
+            <ul class="welcome-features">
+              <li>12 modules covering every key concept</li>
+              <li>60 questions to test your understanding</li>
+              <li>Instant feedback on every answer</li>
+              <li>Apply these frameworks to your business</li>
+            </ul>
+            <button class="btn-next" onclick="goToCard(${idx + 1})">&#8594; Start Learning</button>
+          </div>
+          <div style="text-align:center;padding-top:8px;font-size:11px;color:var(--text3)">
+            Swipe or tap arrows &bull; Mobile-friendly
+          </div>
+        </div>
+      </div>`;
+    } else if (card.type === 'teaching') {
+      const mod = modules[card.moduleIndex];
+      html += `<div class="card${inView}" data-index="${idx}">
+        <div style="display:flex;flex-direction:column;height:100%">
+          ${mod.teaching}
+          <div class="lesson-btn">
+            <button class="btn-next" onclick="goToCard(${idx + 1})">Start Quiz &#8594;</button>
+          </div>
+        </div>
+      </div>`;
+    } else if (card.type === 'quiz-intro') {
+      const mod = modules[card.moduleIndex];
+      html += `<div class="card${inView}" data-index="${idx}">
+        <div style="display:flex;flex-direction:column;height:100%;justify-content:center;align-items:center;text-align:center">
+          <div style="font-size:40px;margin-bottom:10px">&#128221;</div>
+          <div class="lesson-title">Quiz Time!</div>
+          <p style="color:var(--text2);font-size:14px;margin-bottom:4px">Module ${card.moduleIndex + 1}: ${mod.title}</p>
+          <p style="color:var(--text3);font-size:13px">${mod.questions.length} questions</p>
+          <p style="color:var(--text3);font-size:12px;margin-top:6px">Pick the right answer. Instant feedback after each question.</p>
+          <button class="btn-next" style="margin-top:20px;max-width:280px" onclick="goToCard(${idx + 1})">Let's Go!</button>
+        </div>
+      </div>`;
+    } else if (card.type === 'question') {
+      const mod = modules[card.moduleIndex];
+      const qi = card.questionIndex;
+      const q = mod.questions[qi];
+      const answered = state.answered.has(idx);
+      const correct = state.correctAnswers.has(idx);
+      html += `<div class="card${inView}" data-index="${idx}">
+        <div style="display:flex;flex-direction:column;height:100%">
+          <div class="quiz-module-title">${mod.title}</div>
+          <div class="quiz-question">${q.q}</div>
+          <div class="choices" id="choices-${idx}">
+            ${q.c.map((choice, ci) => {
+              let cls = 'choice';
+              if (answered) {
+                cls += ' disabled';
+                if (ci === q.r) cls += ' show-correct';
+                if (ci !== q.r && correct === false) cls += ' selected-wrong';
+              }
+              return `<button class="${cls}" data-qidx="${idx}" data-ci="${ci}" onclick="answer(${idx},${ci})">${choice}</button>`;
+            }).join('')}
+          </div>
+          <div class="feedback ${answered ? (correct ? 'correct' : 'incorrect') : ''} ${answered ? 'show' : ''}" id="feedback-${idx}">
+            ${answered ? `<span class="fb-icon">${correct ? '&#9989;' : '&#10060;'}</span><span class="fb-text">${correct ? '<strong>Correct!</strong> ' : '<strong>Incorrect.</strong> The right answer: ' + q.c[q.r] + '. '}${q.e}</span>` : ''}
+          </div>
+          ${answered ? `<button class="btn-next" style="margin-top:10px;margin-bottom:4px" onclick="goToCard(${idx + 1})">${idx + 1 >= state.totalCards - 1 ? 'See Results' : 'Next Question'} &#8594;</button>` : ''}
+          <div style="flex:1"></div>
+          <div style="text-align:center;font-size:11px;color:var(--text3);padding-top:6px">Question ${getModuleQuestionNumber(card.moduleIndex, card.questionIndex)}/${modules[card.moduleIndex].questions.length}</div>
+        </div>
+      </div>`;
+    } else if (card.type === 'final') {
+      const pct = state.totalCards > 0 ? Math.round((state.score / 60) * 100) : 0;
+      let grade, gradeCls;
+      if (pct >= 90) { grade = 'A'; gradeCls = 'a'; }
+      else if (pct >= 75) { grade = 'B'; gradeCls = 'b'; }
+      else if (pct >= 50) { grade = 'C'; gradeCls = 'c'; }
+      else { grade = 'D'; gradeCls = 'd'; }
+      html += `<div class="card${inView}" data-index="${idx}">
+        <div style="display:flex;flex-direction:column;height:100%">
+          <div style="flex:1;display:flex;flex-direction:column;justify-content:center">
+            <div class="welcome-icon">&#127942;</div>
+            <div class="welcome-title">You Did It!</div>
+            <div class="welcome-sub">Here's how you scored</div>
+            <div class="final-grade ${gradeCls}">${grade}</div>
+            <p style="text-align:center;font-size:15px;color:var(--text2);margin-bottom:8px">${state.score}/60 correct (${pct}%)</p>
+            <div class="final-stats">
+              <div class="stat-box"><div class="num">${state.score}</div><div class="lbl">Correct</div></div>
+              <div class="stat-box"><div class="num">${60 - state.score}</div><div class="lbl">To Review</div></div>
+            </div>
+            <div class="module-review">
+              ${modules.map((m, mi) => {
+                const ms = state.moduleScores[mi];
+                const mpct = ms.total > 0 ? Math.round((ms.correct / ms.total) * 100) : 0;
+                const cls = mpct >= 80 ? 'good' : mpct >= 50 ? 'ok' : 'bad';
+                return `<div class="module-review-item"><span class="mr-name">${m.title}</span><span class="mr-score ${cls}">${ms.correct}/${ms.total}</span></div>`;
+              }).join('')}
+            </div>
+            <p style="text-align:center;color:var(--text3);font-size:12px;margin:10px 0">Now apply these principles to YOUR offer.</p>
+            <button class="btn-next" onclick="goToCard(0)">&#8635; Restart</button>
+          </div>
+        </div>
+      </div>`;
+    }
+  });
+  wrap.innerHTML = html;
+  updateDots();
+  updateProgress();
+  scrollToCard(state.currentCard, false);
+}
+
+function getModuleQuestionNumber(mi, qi) {
+  return qi + 1;
+}
+
+// ==================== ANSWER ====================
+function answer(cardIdx, choiceIdx) {
+  if (state.answered.has(cardIdx)) return;
+  const reg = buildCardRegistry();
+  const card = reg[cardIdx];
+  const mod = modules[card.moduleIndex];
+  const q = mod.questions[card.questionIndex];
+  const correct = choiceIdx === q.r;
+
+  state.answered.add(cardIdx);
+  if (correct) {
+    state.score++;
+    state.correctAnswers.add(cardIdx);
+    state.moduleScores[card.moduleIndex].correct++;
+  }
+  state.moduleScores[card.moduleIndex].total++;
+
+  // Re-render whole thing - it's fast - then restore scroll position to same card
+  render();
+}
+
+// ==================== NAVIGATION ====================
+function goToCard(idx) {
+  idx = Math.max(0, Math.min(state.totalCards - 1, idx));
+  scrollToCard(idx, true);
+}
+
+function nextCard() {
+  const wrap = document.getElementById('cardsWrap');
+  const current = Math.round(wrap.scrollLeft / wrap.clientWidth);
+  goToCard(current + 1);
+}
+
+function prevCard() {
+  const wrap = document.getElementById('cardsWrap');
+  const current = Math.round(wrap.scrollLeft / wrap.clientWidth);
+  goToCard(current - 1);
+}
+
+function scrollToCard(idx, smooth = true) {
+  const wrap = document.getElementById('cardsWrap');
+  wrap.scrollTo({ left: idx * wrap.clientWidth, behavior: smooth ? 'smooth' : 'instant' });
+  state.currentCard = idx;
+  updateInView();
+  updateDotsFromScroll();
+}
+
+function onScroll() {
+  updateInView();
+  updateDotsFromScroll();
+  updateProgress();
+}
+
+function updateInView() {
+  const wrap = document.getElementById('cardsWrap');
+  if (!wrap.clientWidth) return;
+  const current = Math.round(wrap.scrollLeft / wrap.clientWidth);
+  const cards = wrap.querySelectorAll('.card');
+  cards.forEach((c, i) => {
+    c.classList.toggle('in-view', i === current);
+  });
+}
+
+// ==================== DOTS ====================
+function updateDotsFromScroll() {
+  const wrap = document.getElementById('cardsWrap');
+  const current = Math.round(wrap.scrollLeft / wrap.clientWidth);
+  if (current !== state.currentCard) {
+    state.currentCard = current;
+    updateDots();
+  }
+}
+
+function updateDots() {
+  const reg = buildCardRegistry();
+  const container = document.getElementById('dotsContainer');
+  let html = '';
+  reg.forEach((card, idx) => {
+    let cls = 'dot';
+    if (idx === state.currentCard) cls += ' current';
+    else if (state.answered.has(idx)) {
+      cls += state.correctAnswers.has(idx) ? ' quiz-passed' : ' wrong';
+    }
+    html += `<span class="${cls}"></span>`;
+  });
+  container.innerHTML = html;
+}
+
+function updateProgress() {
+  const pct = state.totalCards > 0 ? Math.round((state.currentCard / (state.totalCards - 1)) * 100) : 0;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('scoreDisplay').textContent = state.score;
+}
+
+// ==================== TOUCH HANDLING ====================
+let touchStartX = 0;
+let touchStartY = 0;
+let isSwiping = false;
+document.addEventListener('touchstart', (e) => {
+  touchStartX = e.touches[0].clientX;
+  touchStartY = e.touches[0].clientY;
+  isSwiping = false;
+}, { passive: true });
+document.addEventListener('touchmove', (e) => {
+  const dx = Math.abs(e.touches[0].clientX - touchStartX);
+  const dy = Math.abs(e.touches[0].clientY - touchStartY);
+  if (dx > 10 || dy > 10) isSwiping = true;
+}, { passive: true });
+document.addEventListener('touchend', (e) => {
+  if (!isSwiping) return;
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  if (Math.abs(dx) > 50) {
+    if (dx < 0) nextCard();
+    else prevCard();
+  }
+}, { passive: true });
+
+// ==================== KEYBOARD ====================
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight') nextCard();
+  if (e.key === 'ArrowLeft') prevCard();
+});
+
+// ==================== INIT ====================
+render();
+
+// Fix scroll event
+document.getElementById('cardsWrap').addEventListener('scroll', onScroll);
+</script>
+</body>
+</html>
