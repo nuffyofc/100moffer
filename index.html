@@ -89,11 +89,11 @@ body{
 .cards-wrap{
   flex:1;
   display:flex;
-  overflow-x:auto;
+  overflow-x:hidden;
   overflow-y:hidden;
   scroll-snap-type:x mandatory;
-  -webkit-overflow-scrolling:touch;
   scroll-behavior:smooth;
+  touch-action:none;
   position:relative;
 }
 .cards-wrap::-webkit-scrollbar{display:none}
@@ -354,21 +354,21 @@ body{
 }
 .nav-arrow{
   position:absolute;
-  top:0;bottom:0;
-  width:30%;
-  display:flex;align-items:center;
+  bottom:96px;
+  width:50px;height:50px;
+  display:flex;align-items:center;justify-content:center;
   pointer-events:auto;
   cursor:pointer;
   -webkit-tap-highlight-color:transparent;
 }
-.nav-arrow.prev{left:0;justify-content:flex-start;padding-left:10px;}
-.nav-arrow.next{right:0;justify-content:flex-end;padding-right:10px;}
+.nav-arrow.prev{left:12px;}
+.nav-arrow.next{right:12px;}
 .nav-arrow span{
-  width:38px;height:38px;border-radius:50%;
-  background:rgba(18,17,32,0.75);
+  width:50px;height:50px;border-radius:12px;
+  background:rgba(18,17,32,0.85);
   border:1px solid var(--border);
   display:flex;align-items:center;justify-content:center;
-  font-size:16px;color:var(--text2);
+  font-size:20px;color:var(--text2);
   backdrop-filter:blur(6px);
   transition:transform .15s ease, border-color .15s ease, color .15s ease;
 }
@@ -892,29 +892,6 @@ function updateProgress() {
   document.getElementById('progressFill').style.width = pct + '%';
   document.getElementById('scoreDisplay').textContent = state.score;
 }
-
-// ==================== TOUCH HANDLING ====================
-let touchStartX = 0;
-let touchStartY = 0;
-let isSwiping = false;
-document.addEventListener('touchstart', (e) => {
-  touchStartX = e.touches[0].clientX;
-  touchStartY = e.touches[0].clientY;
-  isSwiping = false;
-}, { passive: true });
-document.addEventListener('touchmove', (e) => {
-  const dx = Math.abs(e.touches[0].clientX - touchStartX);
-  const dy = Math.abs(e.touches[0].clientY - touchStartY);
-  if (dx > 10 || dy > 10) isSwiping = true;
-}, { passive: true });
-document.addEventListener('touchend', (e) => {
-  if (!isSwiping) return;
-  const dx = e.changedTouches[0].clientX - touchStartX;
-  if (Math.abs(dx) > 50) {
-    if (dx < 0) nextCard();
-    else prevCard();
-  }
-}, { passive: true });
 
 // ==================== KEYBOARD ====================
 document.addEventListener('keydown', (e) => {
