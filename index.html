@@ -399,6 +399,20 @@ body{
 .summary-inner{
   display:flex;flex-direction:column;align-items:center;
   width:100%;max-width:340px;
+  position:relative;z-index:1;
+}
+.card-bg-photo{
+  position:absolute;inset:0;
+  background-size:cover;
+  background-position:center top;
+  background-repeat:no-repeat;
+  opacity:0.5;
+  z-index:0;
+}
+.card-bg-scrim{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg, var(--bg) 0%, transparent 28%, transparent 72%, var(--bg) 100%);
+  z-index:0;
 }
 .summary-badge{
   font-size:10.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
@@ -438,6 +452,7 @@ body{
 }
 .watermark{
   position:absolute;
+  z-index:1;
   bottom:14px;right:16px;
   display:flex;flex-direction:column;align-items:flex-end;gap:1px;
   font-size:11px;font-weight:700;letter-spacing:0.2px;
@@ -808,8 +823,10 @@ function render() {
   reg.forEach((card, idx) => {
     const inView = idx === state.currentCard ? ' in-view' : '';
     if (card.type === 'welcome') {
-      html += `<div class="card${inView}" data-index="${idx}">
-        <div style="display:flex;flex-direction:column;height:100%">
+      html += `<div class="card${inView}" data-index="${idx}" style="position:relative">
+        <div class="card-bg-photo" style="background-image:url('alex.jpg')"></div>
+        <div class="card-bg-scrim"></div>
+        <div style="display:flex;flex-direction:column;height:100%;position:relative;z-index:1">
           <div style="flex:1;display:flex;flex-direction:column;justify-content:center">
             <div class="welcome-icon">&#128218;</div>
             <div class="welcome-title">$100M Offers</div>
@@ -876,6 +893,8 @@ function render() {
       const mod = modules[card.moduleIndex];
       const ms = state.moduleScores[card.moduleIndex];
       html += `<div class="card${inView} summary-card" data-index="${idx}">
+        <div class="card-bg-photo" style="background-image:url('alex.jpg')"></div>
+        <div class="card-bg-scrim"></div>
         <div class="summary-inner">
           <div class="summary-badge">Module ${card.moduleIndex + 1} of 12 &bull; Complete</div>
           <div class="summary-icon">${mod.icon}</div>
