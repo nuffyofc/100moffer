@@ -398,8 +398,9 @@ body{
 }
 .summary-inner{
   display:flex;flex-direction:column;align-items:center;
-  width:100%;max-width:340px;
+  width:100%;max-width:380px;
   position:relative;z-index:1;
+  margin:0 auto;
 }
 .card-bg-photo{
   position:absolute;inset:0;
@@ -416,40 +417,35 @@ body{
   z-index:0;
 }
 .summary-badge{
-  font-size:10.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+  font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
   color:var(--gold);
   background:var(--gold-glow);border:1px solid var(--gold-glow-strong);
-  padding:6px 14px;border-radius:20px;margin-bottom:18px;
-}
-.summary-icon{
-  font-size:48px;margin-bottom:8px;
-  filter:drop-shadow(0 6px 18px rgba(106,5,246,0.45));
+  padding:7px 18px;border-radius:20px;margin-bottom:22px;
 }
 .summary-title{
-  font-size:23px;font-weight:800;letter-spacing:-0.4px;
-  margin-bottom:6px;
+  font-size:30px;font-weight:800;letter-spacing:-0.6px;
+  line-height:1.2;
+  margin-bottom:10px;
   background:linear-gradient(90deg, var(--text), var(--gold));
   -webkit-background-clip:text;background-clip:text;color:transparent;
 }
 .summary-score{
-  font-size:13px;font-weight:700;color:var(--green);
+  font-size:15px;font-weight:700;color:var(--green);
   background:var(--green-glow);border:1px solid var(--green-dim);
-  padding:5px 14px;border-radius:20px;margin-bottom:20px;
+  padding:6px 18px;border-radius:20px;margin-bottom:26px;
 }
 .summary-points{
-  list-style:none;width:100%;text-align:left;margin-bottom:22px;
+  list-style:none;width:100%;text-align:left;margin-bottom:6px;
 }
 .summary-points li{
-  display:flex;align-items:flex-start;gap:10px;
-  font-size:13.5px;color:var(--text2);line-height:1.5;
-  padding:10px 14px;margin-bottom:8px;
-  background:var(--surface3);border:1px solid var(--border);border-radius:10px;
+  display:flex;align-items:flex-start;gap:12px;
+  font-size:15.5px;color:var(--text);line-height:1.55;
+  font-weight:500;
+  padding:14px 16px;margin-bottom:10px;
+  background:var(--surface3);border:1px solid var(--border);border-radius:12px;
 }
 .summary-points .sp-tick{
-  flex-shrink:0;color:var(--gold);font-weight:800;font-size:13px;margin-top:1px;
-}
-.summary-share{
-  font-size:12px;color:var(--text2);font-weight:600;
+  flex-shrink:0;color:var(--gold);font-weight:800;font-size:15px;margin-top:1px;
 }
 .watermark{
   position:absolute;
@@ -906,13 +902,11 @@ function render() {
         <div class="card-bg-scrim"></div>
         <div class="summary-inner">
           <div class="summary-badge">Module ${card.moduleIndex + 1} of 12 &bull; Complete</div>
-          <div class="summary-icon">${mod.icon}</div>
           <div class="summary-title">${mod.title}</div>
           <div class="summary-score">${ms.correct}/${ms.total} correct</div>
           <ul class="summary-points">
             ${mod.summary.map(pt => `<li><span class="sp-tick">&#10003;</span><span>${pt}</span></li>`).join('')}
           </ul>
-          <div class="summary-share">&#128247; Screenshot this &amp; share your progress</div>
         </div>
         <div class="watermark">linktr.ee/treebranches<span class="watermark-sub">Based on the book by Alex Hormozi</span></div>
       </div>`;
