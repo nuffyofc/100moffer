@@ -144,7 +144,7 @@ body{
   scroll-snap-align:start;
   display:flex;
   flex-direction:column;
-  padding:22px 18px 12px;
+  padding:22px 38px 12px;
   overflow-y:auto;
   -webkit-overflow-scrolling:touch;
   transition:opacity .35s ease, transform .35s ease;
@@ -328,7 +328,7 @@ body{
   -webkit-background-clip:text;background-clip:text;color:transparent;
 }
 .welcome-sub{
-  font-size:13px;color:var(--text3);text-align:center;
+  font-size:13px;color:var(--text2);text-align:center;
   margin-bottom:18px;
 }
 .welcome-features{
@@ -411,7 +411,8 @@ body{
 }
 .card-bg-scrim{
   position:absolute;inset:0;
-  background:linear-gradient(180deg, var(--bg) 0%, transparent 28%, transparent 72%, var(--bg) 100%);
+  background:var(--bg);
+  opacity:0.62;
   z-index:0;
 }
 .summary-badge{
@@ -448,7 +449,7 @@ body{
   flex-shrink:0;color:var(--gold);font-weight:800;font-size:13px;margin-top:1px;
 }
 .summary-share{
-  font-size:12px;color:var(--text3);font-weight:600;
+  font-size:12px;color:var(--text2);font-weight:600;
 }
 .watermark{
   position:absolute;
@@ -467,35 +468,42 @@ body{
   font-size:9px;font-weight:600;color:var(--text3);opacity:0.85;letter-spacing:0;
 }
 
-/* NAV ARROWS */
+/* STAGE (cards area only, excludes header/dots) */
+.stage{
+  flex:1;
+  position:relative;
+  overflow:hidden;
+  display:flex;
+}
+.stage .cards-wrap{flex:1;}
+
+/* NAV ARROWS — full-height edge panels, scoped to the stage only */
 .nav-arrows{
-  position:fixed;
+  position:absolute;
   inset:0;
   pointer-events:none;
   z-index:5;
 }
 .nav-arrow{
   position:absolute;
-  bottom:96px;
-  width:50px;height:50px;
+  top:0;bottom:0;
+  width:30px;
   display:flex;align-items:center;justify-content:center;
   pointer-events:auto;
   cursor:pointer;
   -webkit-tap-highlight-color:transparent;
+  background:linear-gradient(180deg, rgba(52,211,153,0.18), rgba(52,211,153,0.30), rgba(52,211,153,0.18));
+  border:1px solid rgba(52,211,153,0.4);
+  transition:background .15s ease;
 }
-.nav-arrow.prev{left:12px;}
-.nav-arrow.next{right:12px;}
+.nav-arrow.prev{left:0;border-radius:0 16px 16px 0;border-left:none;}
+.nav-arrow.next{right:0;border-radius:16px 0 0 16px;border-right:none;}
 .nav-arrow span{
-  width:50px;height:50px;border-radius:12px;
-  background:var(--chrome-3);
-  border:1px solid var(--border);
-  display:flex;align-items:center;justify-content:center;
-  font-size:20px;color:var(--text2);
-  backdrop-filter:blur(6px);
-  transition:transform .15s ease, border-color .15s ease, color .15s ease;
+  font-size:16px;font-weight:800;color:var(--green);
+  transition:transform .15s ease;
 }
-.nav-arrow:hover span{border-color:var(--gold-dim);color:var(--gold);}
-.nav-arrow:active span{transform:scale(0.88);}
+.nav-arrow:hover{background:linear-gradient(180deg, rgba(52,211,153,0.26), rgba(52,211,153,0.42), rgba(52,211,153,0.26));}
+.nav-arrow:active span{transform:scale(0.8);}
 
 /* UTILITIES */
 .flex-1{flex:1}
@@ -514,16 +522,17 @@ body{
 </div>
 <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
 
-<div class="cards-wrap" id="cardsWrap">
-  <!-- Cards injected by JS -->
+<div class="stage" id="stage">
+  <div class="cards-wrap" id="cardsWrap">
+    <!-- Cards injected by JS -->
+  </div>
+  <div class="nav-arrows" id="navArrows">
+    <div class="nav-arrow prev" id="prevArrow" onclick="prevCard()"><span>&#8592;</span></div>
+    <div class="nav-arrow next" id="nextArrow" onclick="nextCard()"><span>&#8594;</span></div>
+  </div>
 </div>
 
 <div class="dots" id="dotsContainer"></div>
-
-<div class="nav-arrows" id="navArrows">
-  <div class="nav-arrow prev" id="prevArrow" onclick="prevCard()"><span>&#8592;</span></div>
-  <div class="nav-arrow next" id="nextArrow" onclick="nextCard()"><span>&#8594;</span></div>
-</div>
 
 <script>
 // ==================== DATA ====================
