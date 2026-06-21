@@ -287,14 +287,21 @@ body{
 
 /* WELCOME CARD */
 .welcome-icon{
-  width:72px;height:72px;border-radius:20px;
-  background:radial-gradient(circle at 30% 30%, var(--gold-glow-strong), var(--gold-glow));
+  width:96px;height:130px;border-radius:10px;
+  background-image:url('bookcover.jpg');
+  background-size:cover;background-position:center;
   border:1px solid var(--gold-glow-strong);
-  color:var(--gold);
-  display:flex;align-items:center;justify-content:center;
-  font-size:34px;margin:12px auto 16px;
+  margin:12px auto 16px;
   box-shadow:0 12px 30px -10px rgba(106,5,246,0.5);
   animation:floatIcon 3.2s ease-in-out infinite;
+}
+.summary-cover{
+  width:64px;height:88px;border-radius:8px;
+  background-image:url('bookcover.jpg');
+  background-size:cover;background-position:center;
+  border:1px solid var(--gold-glow-strong);
+  margin-bottom:16px;
+  box-shadow:0 10px 24px -8px rgba(106,5,246,0.5);
 }
 @keyframes floatIcon{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
 .welcome-title{
@@ -815,7 +822,7 @@ function render() {
         <div class="card-bg-scrim"></div>
         <div style="display:flex;flex-direction:column;height:100%;position:relative;z-index:1">
           <div style="flex:1;display:flex;flex-direction:column;justify-content:center">
-            <div class="welcome-icon">&#128218;</div>
+            <div class="welcome-icon"></div>
             <div class="welcome-title">$100M Offers</div>
             <div class="welcome-sub">by Alex Hormozi — Interactive Learning</div>
             <ul class="welcome-features">
@@ -883,6 +890,7 @@ function render() {
         <div class="card-bg-photo" style="background-image:url('alex.jpg')"></div>
         <div class="card-bg-scrim"></div>
         <div class="summary-inner">
+          <div class="summary-cover"></div>
           <div class="summary-badge">Module ${card.moduleIndex + 1} of 12 &bull; Complete</div>
           <div class="summary-title">${mod.title}</div>
           <div class="summary-score">${ms.correct}/${ms.total} correct</div>
